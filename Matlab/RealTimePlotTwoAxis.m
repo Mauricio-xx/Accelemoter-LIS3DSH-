@@ -11,17 +11,20 @@ x2=1;
 
 while(1)
     
-    comport = serial('/dev/ttyUSB0','BaudRate',115200,'DataBits',8);
-    set(comport,'Parity','none');
+    comport0 = serial('/dev/ttyUSB0','BaudRate',115200,'DataBits',8);
+  
+    
+    set(comport0,'Parity','none');
+    
 
-    fopen(comport);
+    fopen(comport0);
+   
     
-    axis([0 100 -200 200]);
-    
+    axis([0 100 -1024 1024]);
     
     x1=x1+1;
     
-    x2=x2+1;
+    
     
     
     if(x1>100)
@@ -31,7 +34,47 @@ while(1)
        f1=x1;
     end
     
+
     
+    
+    AxisX = fscanf(comport0,'%s');
+
+    X = strfind(AxisX,'x','ForceCellOutput',false);  
+    
+     
+    FindAxisX = isempty(X);%boolean. True or Not
+    
+          
+  
+    
+        figure(1);
+        
+    y1(f1)=fscanf(comport0,'%d');
+
+    plot(y1,'b','linewidth',1);
+    grid on;    
+    hold on;
+   
+    fclose(comport0);
+  
+    drawnow;
+    
+    %y
+    comport1 = serial('/dev/ttyUSB1','BaudRate',115200,'DataBits',8);
+    
+   
+    set(comport1,'Parity','none');
+
+  
+    fopen(comport1);
+    
+    axis([0 100 -1024 1024]);
+    
+    
+    
+    x2=x2+1;
+    
+     
     if(x2>100)
        f2=100;
     end 
@@ -40,45 +83,27 @@ while(1)
     end
     
     
-    AxisXorY = fscanf(comport,'%s');
+    AxisY = fscanf(comport1,'%s');
      
-    Y = strfind(AxisXorY,'y','ForceCellOutput',false);
-    X = strfind(AxisXorY,'x','ForceCellOutput',false);  
+    Y = strfind(AxisY,'y','ForceCellOutput',false);
+    
     
       
     
-    FindAxisY = isempty(Y);
-    FindAxisX = isempty(X);
-    
-          
-    if (FindAxisX == 0)
-    
-        figure(1);
-        
-    y1(f1)=fscanf(comport,'%f');
-
-    plot(y1,'b.','linewidth',1);
-    grid on;    
-    hold on;
-    %drawnow;
-    fclose(comport);
-    %end
-    
-
-    
-    elseif(FindAxisY == 0)
+    FindAxisY = isempty(Y); %boolean. True or Not
     
     figure(2);
     
-    y2(f2)=fscanf(comport,'%f');
+    y2(f2)=fscanf(comport1,'%d');
 
-    plot(y2,'r.','linewidth',1);
+    plot(y2,'r','linewidth',1);
     grid on;    
     hold on;
     %drawnow;
-    fclose(comport);
-    end
+    fclose(comport1);
+    
     drawnow;
+    
     
    
     end
@@ -95,5 +120,8 @@ while(1)
     %%end
 %%%%%%
     
-    fclose(comport);
-delete(comport);
+    fclose(comport0);
+delete(comport0);   
+fclose(comport1);
+delete(comport1);
+
