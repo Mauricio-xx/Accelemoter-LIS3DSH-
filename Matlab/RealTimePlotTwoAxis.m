@@ -2,22 +2,15 @@ clear all;
 clc;
 close all;
 delete(instrfindall);
-
- 
 x1=1;
 x2=1;
 
 while(1)
     
-    comport0 = serial('/dev/ttyUSB0','BaudRate',115200,'DataBits',8);
-  
-    set(comport0,'Parity','none');
-    
-
-    fopen(comport0);
-   
-    
-    axis([0 100 -1024 1024]);
+comport0 = serial('/dev/ttyUSB0','BaudRate',115200,'DataBits',8);
+set(comport0,'Parity','none');
+fopen(comport0);
+axis([0 100 -2024 1024]);
     
     x1=x1+1;
     
@@ -53,7 +46,7 @@ while(1)
     comport1 = serial('/dev/ttyUSB1','BaudRate',115200,'DataBits',8);
     set(comport1,'Parity','none')
     fopen(comport1);
-    axis([0 100 -1024 1024]);
+    axis([0 100 -2024 1024]);
     
     
     
@@ -91,16 +84,16 @@ while(1)
    
     end
 
-%%%%%    
-  %  if(x>=100)
-   %    loop=0;
-    %   while(loop<99)
-     %      loop=loop+1;
-      %    y1(loop)=y1(loop+1);
-       %   y2(loop)=y2(loop+1);
+    
+    if(x>=100)
+       loop=0;
+      while(loop<99)
+          loop=loop+1;
+          y1(loop)=y1(loop+1);
+         y2(loop)=y2(loop+1);
        %end
 
-    %%end
+    end
 %%%%%%
     
     fclose(comport0);
