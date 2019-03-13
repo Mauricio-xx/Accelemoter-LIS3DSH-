@@ -91,7 +91,7 @@ axis([0 100 -2024 1024]);
           loop=loop+1;
           y1(loop)=y1(loop+1);
          y2(loop)=y2(loop+1);
-       %end
+       end
 
     end
 %%%%%%
